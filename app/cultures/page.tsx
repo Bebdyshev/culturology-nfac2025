@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import axios from "@/lib/axios"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -10,97 +11,36 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
 
-// Mock data for cultures
-const cultures = [
-  {
-    id: "sami",
-    name: "Sámi",
-    region: "Northern Europe",
-    continent: "Europe",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "hmong",
-    name: "Hmong",
-    region: "Southeast Asia",
-    continent: "Asia",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "maori",
-    name: "Māori",
-    region: "New Zealand",
-    continent: "Oceania",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "inuit",
-    name: "Inuit",
-    region: "Arctic",
-    continent: "North America",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "yanomami",
-    name: "Yanomami",
-    region: "Amazon Rainforest",
-    continent: "South America",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "aboriginals",
-    name: "Aboriginal Australians",
-    region: "Australia",
-    continent: "Oceania",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "ainu",
-    name: "Ainu",
-    region: "Japan",
-    continent: "Asia",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "san",
-    name: "San",
-    region: "Southern Africa",
-    continent: "Africa",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "berber",
-    name: "Berber",
-    region: "North Africa",
-    continent: "Africa",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "quechua",
-    name: "Quechua",
-    region: "Andes Mountains",
-    continent: "South America",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "navajo",
-    name: "Navajo",
-    region: "Southwestern United States",
-    continent: "North America",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: "tibetan",
-    name: "Tibetan",
-    region: "Tibet",
-    continent: "Asia",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-]
+type Culture = {
+  id: string
+  name: string
+  region: string
+  continent: string
+  images: string[] // или string, если не массив
+}
+
 
 const continents = ["All", "Africa", "Asia", "Europe", "North America", "Oceania", "South America"]
 
+
 export default function CulturesPage() {
+  const [cultures, setCultures] = useState<Culture[]>([])
+
+  useEffect(() => {
+    const fetchCultures = async () => {
+      try {
+        const res = await axios.get("/cultures")
+        setCultures(res.data)
+      } catch (err) {
+        console.error("Failed to fetch cultures:", err)
+      }
+    }
+
+    fetchCultures()
+  }, [])
+
+  console.log(cultures)
+  
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedContinent, setSelectedContinent] = useState("All")
 
@@ -188,7 +128,7 @@ export default function CulturesPage() {
                 <Card className="overflow-hidden hover:shadow-lg transition-all duration-500 hover:border-primary/50 group">
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
-                      src={culture.image || "/placeholder.svg"}
+                      src={culture.images[0] || "/placeholder.svg"}
                       alt={culture.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
