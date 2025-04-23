@@ -16,7 +16,7 @@ type Culture = {
   name: string
   region: string
   continent: string
-  images: string[] // или string, если не массив
+  images: string[]
 }
 
 

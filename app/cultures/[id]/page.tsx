@@ -20,6 +20,25 @@ import { AnimatedSection } from "@/components/animated-section"
 
 // Mock data for cultures
 const culturesData = {
+  sami: {
+    name: "Sámi",
+    region: "Northern Europe",
+    population: "~80,000",
+    language: "Sámi languages (Northern Sámi, Inari Sámi, etc.)",
+    location: "Norway, Sweden, Finland, and Russia's Kola Peninsula",
+    description:
+      "The Sámi people are indigenous to the northern parts of Norway, Sweden, Finland, and Russia's Kola Peninsula. Traditionally, they have pursued a variety of livelihoods, including coastal fishing, fur trapping, and sheep herding. Their best-known means of livelihood is semi-nomadic reindeer herding, with which about 10% of the Sámi are connected and 2,800 actively involved in. For traditional, environmental, cultural, and political reasons, reindeer herding is legally reserved for Sámi people in certain regions of the Nordic countries.",
+    traditions:
+      "The Sámi have a rich cultural heritage that includes distinctive colorful clothing (gákti), handicrafts (duodji), and the joik, a traditional form of song. The Sámi spiritual tradition is characterized by a deep connection to the land and animistic beliefs. Traditional Sámi religion was animistic, with a worship of nature and natural forces. The Sámi shaman, or noaidi, would use a drum decorated with symbols to enter a trance and communicate with the spirit world.",
+    lifestyle:
+      "While many Sámi have adopted modern lifestyles and live in urban areas, traditional practices like reindeer herding remain important cultural touchstones. Modern Sámi communities balance traditional knowledge with contemporary life, working to preserve their language and cultural practices while adapting to changing social and environmental conditions. The Sámi have their own parliaments in Norway, Sweden, and Finland, which advocate for Sámi rights and interests.",
+    images: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+    ],
+  },
 }
 
 export default function CultureDetailPage() {
