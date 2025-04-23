@@ -1,0 +1,326 @@
+"use client"
+
+import { useState } from "react"
+import { useParams } from "next/navigation"
+import Link from "next/link"
+import { ChevronLeft, MessageSquare, Globe, Users, Calendar, MapPin } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { motion } from "framer-motion"
+import { AnimatedSection } from "@/components/animated-section"
+
+// Mock data for cultures
+const culturesData = {
+  sami: {
+    name: "Sámi",
+    region: "Northern Europe",
+    population: "~80,000",
+    language: "Sámi languages (Northern Sámi, Inari Sámi, etc.)",
+    location: "Norway, Sweden, Finland, and Russia's Kola Peninsula",
+    description:
+      "The Sámi people are indigenous to the northern parts of Norway, Sweden, Finland, and Russia's Kola Peninsula. Traditionally, they have pursued a variety of livelihoods, including coastal fishing, fur trapping, and sheep herding. Their best-known means of livelihood is semi-nomadic reindeer herding, with which about 10% of the Sámi are connected and 2,800 actively involved in. For traditional, environmental, cultural, and political reasons, reindeer herding is legally reserved for Sámi people in certain regions of the Nordic countries.",
+    traditions:
+      "The Sámi have a rich cultural heritage that includes distinctive colorful clothing (gákti), handicrafts (duodji), and the joik, a traditional form of song. The Sámi spiritual tradition is characterized by a deep connection to the land and animistic beliefs. Traditional Sámi religion was animistic, with a worship of nature and natural forces. The Sámi shaman, or noaidi, would use a drum decorated with symbols to enter a trance and communicate with the spirit world.",
+    lifestyle:
+      "While many Sámi have adopted modern lifestyles and live in urban areas, traditional practices like reindeer herding remain important cultural touchstones. Modern Sámi communities balance traditional knowledge with contemporary life, working to preserve their language and cultural practices while adapting to changing social and environmental conditions. The Sámi have their own parliaments in Norway, Sweden, and Finland, which advocate for Sámi rights and interests.",
+    images: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+    ],
+  },
+  hmong: {
+    name: "Hmong",
+    region: "Southeast Asia",
+    population: "~4-5 million worldwide",
+    language: "Hmong language (various dialects)",
+    location: "China, Vietnam, Laos, Thailand, and diaspora communities",
+    description:
+      "The Hmong are an ethnic group from the mountainous regions of China, Vietnam, Laos, and Thailand. Following the Vietnam War, many Hmong people migrated to the United States, France, Australia, and other countries, forming significant diaspora communities. The Hmong have a rich cultural heritage that has been preserved despite centuries of migration and political upheaval.",
+    traditions:
+      "Hmong culture is known for its intricate needlework, particularly the pa ndau (story cloths) that use embroidery to tell stories and preserve history. Traditional Hmong music uses instruments like the qeej, a bamboo reed pipe. Hmong spiritual practices often involve shamanism, with rituals to maintain harmony between the physical and spiritual worlds. Important ceremonies include New Year celebrations and complex funeral rites that guide the deceased to join their ancestors.",
+    lifestyle:
+      "Traditionally, the Hmong practiced slash-and-burn agriculture in mountainous regions, growing rice, corn, and opium as a cash crop. Family and clan structures are central to Hmong society, with clan membership determining many social relationships. In diaspora communities, Hmong people have adapted to new environments while working to preserve their cultural identity, language, and traditions across generations.",
+    images: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+    ],
+  },
+  maori: {
+    name: "Māori",
+    region: "New Zealand",
+    population: "~850,000",
+    language: "Te Reo Māori",
+    location: "New Zealand (Aotearoa)",
+    description:
+      "The Māori are the indigenous Polynesian people of New Zealand (Aotearoa). They arrived in New Zealand from eastern Polynesia in several waves of canoe voyages between 1250 and 1300 CE. Over centuries, they developed a distinct culture with unique art forms, social structures, and a rich oral tradition. Today, Māori make up about 16.5% of New Zealand's population and their culture is an integral part of New Zealand's national identity.",
+    traditions:
+      "Māori culture is rich in tradition, including the haka (ceremonial dance), whakairo (carving), and tā moko (traditional tattooing). The marae (meeting grounds) serves as a focal point for social and ceremonial events. Māori have a strong oral tradition, with histories, genealogies (whakapapa), and cultural knowledge passed down through generations in the form of stories, songs, and chants. The concept of mana (prestige, authority) and tapu (sacredness) are central to Māori spiritual and social systems.",
+    lifestyle:
+      "Traditional Māori society was tribal (iwi), with communities led by chiefs (rangatira) who were selected based on their genealogical connections and personal qualities. While many Māori now live in urban areas and participate in mainstream New Zealand society, there has been a significant cultural revival since the 1970s. The Māori language (Te Reo Māori) is an official language of New Zealand, and Māori cultural practices are incorporated into national ceremonies and everyday life.",
+    images: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+    ],
+  },
+  inuit: {
+    name: "Inuit",
+    region: "Arctic",
+    population: "~180,000",
+    language: "Inuktitut and related languages",
+    location: "Arctic regions of Canada, Alaska, and Greenland",
+    description:
+      "The Inuit are indigenous peoples who live primarily in the Arctic regions of Canada, Alaska, and Greenland. The term 'Inuit' means 'the people' in Inuktitut, their language. They have traditionally been hunters and gatherers, with a deep knowledge of the Arctic environment that has allowed them to thrive in one of the world's harshest climates for thousands of years.",
+    traditions:
+      "Inuit cultural traditions are closely tied to their Arctic environment. Traditional practices include hunting marine mammals (particularly seals, walrus, and whales), fishing, and gathering. The Inuit are known for their technological innovations, including the igloo, kayak, and ulu (women's knife). Inuit art, particularly soapstone carvings, prints, and textiles, has gained international recognition. Traditional beliefs center around animism and shamanism, with a rich mythology featuring figures like Sedna, the goddess of the sea.",
+    lifestyle:
+      "While traditional hunting and gathering practices continue to be important, contemporary Inuit communities have undergone significant changes due to colonization, forced settlement, and climate change. Many Inuit now live in permanent settlements and participate in wage economies, while working to preserve their cultural heritage and address social challenges. In Canada, the creation of the territory of Nunavut in 1999 represented a significant achievement in Inuit self-governance.",
+    images: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+    ],
+  },
+  yanomami: {
+    name: "Yanomami",
+    region: "Amazon Rainforest",
+    population: "~35,000",
+    language: "Yanomami languages",
+    location: "Venezuela and Brazil",
+    description:
+      "The Yanomami are one of the largest relatively isolated indigenous peoples in South America, living in the Amazon rainforest on the border between Venezuela and Brazil. They live in villages usually consisting of a single large communal house called a shabono, which houses multiple families. The Yanomami have been significantly impacted by outside contact, particularly from illegal gold miners who have brought disease and environmental destruction to their territories.",
+    traditions:
+      "Yanomami spiritual life centers around shamanism and the belief in a mythical ancestral world. Shamans communicate with spirits through the use of hallucinogenic snuff called yopo. Elaborate funeral rituals are important in Yanomami culture, including the practice of endocannibalism, where the cremated remains of the deceased are mixed with plantain soup and consumed by relatives as a way to ensure the soul of the deceased finds peace. Traditional body decoration includes body painting and the use of botanical materials.",
+    lifestyle:
+      "The Yanomami practice shifting cultivation, growing plantains, cassava, and other crops in gardens cleared from the forest. They supplement their diet through hunting, gathering wild foods, and fishing. Their society is largely egalitarian, with decisions made through consensus. Despite increasing outside pressures, many Yanomami communities maintain their traditional way of life while advocating for the protection of their lands and rights.",
+    images: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+    ],
+  },
+}
+
+export default function CultureDetailPage() {
+  const { id } = useParams()
+  const [isChatOpen, setIsChatOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState("about")
+
+  // Fallback for unknown culture IDs
+  const cultureId = typeof id === "string" && id in culturesData ? id : "sami"
+  const culture = culturesData[cultureId as keyof typeof culturesData]
+
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  }
+
+  return (
+    <div className="min-h-screen pt-16 pb-16">
+      {/* Hero Section */}
+      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+        <motion.div
+          initial={{ scale: 1.1, opacity: 0.8 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <img
+            src={culture.images[0] || "/placeholder.svg"}
+            alt={culture.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent"></div>
+        </motion.div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+          <div className="container mx-auto">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <Button asChild variant="outline" size="sm" className="mb-4 backdrop-blur-sm bg-background/30">
+                <Link href="/cultures">
+                  <ChevronLeft className="mr-2 h-4 w-4" />
+                  Back to Cultures
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-4xl md:text-6xl font-heading font-bold mb-2"
+            >
+              {culture.name}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl text-muted-foreground"
+            >
+              {culture.region}
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Sidebar with Key Information */}
+          <AnimatedSection className="order-2 lg:order-1" delay={0.2} direction="right">
+            <div className="bg-muted/50 backdrop-blur-sm rounded-lg p-6 sticky top-24 border border-border">
+              <h3 className="text-xl font-heading font-semibold mb-6">Key Information</h3>
+
+              <div className="space-y-6">
+                <div className="flex items-start group">
+                  <Globe className="h-5 w-5 mr-3 mt-0.5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium">Region</p>
+                    <p className="text-muted-foreground">{culture.region}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start group">
+                  <MapPin className="h-5 w-5 mr-3 mt-0.5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium">Location</p>
+                    <p className="text-muted-foreground">{culture.location}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start group">
+                  <Users className="h-5 w-5 mr-3 mt-0.5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium">Population</p>
+                    <p className="text-muted-foreground">{culture.population}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start group">
+                  <Calendar className="h-5 w-5 mr-3 mt-0.5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium">Language</p>
+                    <p className="text-muted-foreground">{culture.language}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="w-full group">
+                      <MessageSquare className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                      Talk to a Representative
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Chat with a {culture.name} Representative</DialogTitle>
+                      <DialogDescription>
+                        This is a simulated chat experience. In a real application, this would connect to an AI-powered
+                        chat system.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="bg-muted p-4 rounded-md h-[300px] flex items-center justify-center">
+                      <p className="text-center text-muted-foreground">
+                        [AI Chat Interface Placeholder]
+                        <br />
+                        This would connect to a backend AI service in a real implementation.
+                      </p>
+                    </div>
+                    <Button onClick={() => setIsChatOpen(false)}>Close</Button>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          </AnimatedSection>
+
+          {/* Main Content Area */}
+          <AnimatedSection className="order-1 lg:order-2 lg:col-span-2" delay={0.1} direction="left">
+            <Tabs defaultValue="about" value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="mb-8 bg-background/50 backdrop-blur-sm p-1 border border-border">
+                <TabsTrigger value="about" className="data-[state=active]:bg-primary/10">
+                  About
+                </TabsTrigger>
+                <TabsTrigger value="traditions" className="data-[state=active]:bg-primary/10">
+                  Traditions
+                </TabsTrigger>
+                <TabsTrigger value="lifestyle" className="data-[state=active]:bg-primary/10">
+                  Lifestyle
+                </TabsTrigger>
+                <TabsTrigger value="gallery" className="data-[state=active]:bg-primary/10">
+                  Gallery
+                </TabsTrigger>
+              </TabsList>
+
+              <motion.div key={activeTab} initial="hidden" animate="visible" variants={fadeInVariants}>
+                <TabsContent value="about" className="mt-0">
+                  <h2 className="text-3xl font-heading font-bold mb-6">About the {culture.name}</h2>
+                  <p className="text-lg leading-relaxed mb-6">{culture.description}</p>
+                </TabsContent>
+
+                <TabsContent value="traditions" className="mt-0">
+                  <h2 className="text-3xl font-heading font-bold mb-6">Traditions & Beliefs</h2>
+                  <p className="text-lg leading-relaxed mb-6">{culture.traditions}</p>
+                </TabsContent>
+
+                <TabsContent value="lifestyle" className="mt-0">
+                  <h2 className="text-3xl font-heading font-bold mb-6">Lifestyle & Society</h2>
+                  <p className="text-lg leading-relaxed mb-6">{culture.lifestyle}</p>
+                </TabsContent>
+
+                <TabsContent value="gallery" className="mt-0">
+                  <h2 className="text-3xl font-heading font-bold mb-6">Photo Gallery</h2>
+                  <Carousel className="w-full">
+                    <CarouselContent>
+                      {culture.images.map((image, index) => (
+                        <CarouselItem key={index}>
+                          <div className="p-1">
+                            <div className="overflow-hidden rounded-lg">
+                              <img
+                                src={image || "/placeholder.svg"}
+                                alt={`${culture.name} - Image ${index + 1}`}
+                                className="w-full aspect-video object-cover hover:scale-105 transition-transform duration-700"
+                              />
+                            </div>
+                            <p className="mt-2 text-center text-muted-foreground">
+                              {culture.name} cultural imagery - Photo {index + 1}
+                            </p>
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                </TabsContent>
+              </motion.div>
+            </Tabs>
+          </AnimatedSection>
+        </div>
+      </div>
+    </div>
+  )
+}
