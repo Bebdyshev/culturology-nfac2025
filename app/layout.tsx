@@ -17,7 +17,7 @@ const raleway = Raleway({
 })
 
 export const metadata: Metadata = {
-  title: "Culturology | Discover Indigenous Cultures",
+  title: "Cultural Bridge | Discover Indigenous Cultures",
   description: "Explore the rich heritage of lesser-known indigenous peoples around the world.",
 }
 

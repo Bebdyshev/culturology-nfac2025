@@ -87,8 +87,8 @@ export default function Home() {
           <StaggeredChildren className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { id: "sami", name: "Sámi", region: "Northern Europe", image: "https://www.visitfinland.com/dam/jcr:6772beb0-3aad-45a0-b0ea-3a47df570311/___Lapland_People_Sami_Mikko%20Ryh%C3%A4nen.12414660736871135524.jpg" },
-              { id: "hmong", name: "Hmong", region: "Southeast Asia", image: "/placeholder.svg?height=300&width=400" },
-              { id: "maori", name: "Māori", region: "New Zealand", image: "/placeholder.svg?height=300&width=400" },
+              { id: "hmong", name: "Hmong", region: "Southeast Asia", image: "https://i0.wp.com/sahanjournal.com/wp-content/uploads/2023/04/resized-photos-2023-09-08T132200.543.jpg?fit=1800%2C1200&ssl=1" },
+              { id: "maori", name: "Māori", region: "New Zealand", image: "https://kaitiaki.co.nz/wp-content/uploads/2016/08/maori-culture-new-plymouth.jpg" },
             ].map((culture) => (
               <Link
                 href={`/cultures/${culture.id}`}
@@ -133,41 +133,16 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             <div className="text-6xl text-primary/20 font-serif mb-6">"</div>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading italic mb-8 leading-relaxed">
-              When we lose indigenous wisdom, we lose part of our human heritage. Each culture holds unique knowledge
-              about our world that once lost, can never be recovered.
+            We may have different religions, different languages, different colored skin,
+            but we all belong to one human race
             </h2>
-            <p className="text-xl text-primary font-medium">Dr. Maya Johnson</p>
-            <p className="text-muted-foreground">Founder, Culturology</p>
+            <p className="text-xl text-primary font-medium">Kofi Annan</p>
+            <p className="text-muted-foreground">7th UN Secretary General</p>
           </div>
         </div>
         <div className="absolute top-0 left-0 w-full h-full">
           <div className="absolute top-10 left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 right-10 w-60 h-60 bg-primary/5 rounded-full blur-3xl"></div>
-        </div>
-      </AnimatedSection>
-
-      {/* Call to Action */}
-      <AnimatedSection className="py-24 bg-primary/10 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent"></div>
-          <div className="absolute right-0 bottom-0 w-1/3 h-1/3 bg-primary/5 blur-3xl rounded-full"></div>
-        </div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-heading font-bold mb-6">Join Our Cultural Journey</h2>
-          <p className="text-xl max-w-2xl mx-auto mb-10">
-            Subscribe to receive updates on newly added cultures, stories, and exclusive content.
-          </p>
-          <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="flex h-12 w-full rounded-md border border-input bg-background/80 backdrop-blur-sm px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-            <Button className="h-12 group">
-              Subscribe
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
-          </div>
         </div>
       </AnimatedSection>
     </div>
