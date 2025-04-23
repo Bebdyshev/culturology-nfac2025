@@ -6,8 +6,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Shuffle } from "lucide-react"
 
+interface Culture {
+  id: string
+  name: string
+  region: string
+  image: string
+}
+
 // Данные о народах
-const cultures = [
+const cultures: Culture[] = [
   {
     id: "sami",
     name: "Sámi",
@@ -76,17 +83,20 @@ const cultures = [
   },
 ]
 
-// Функция для получения случайного народа
-function getRandomCulture() {
+function getRandomCulture(): Culture {
   const randomIndex = Math.floor(Math.random() * cultures.length)
   return cultures[randomIndex]
 }
 
 export default function RandomCulture() {
-  const [randomCultures, setRandomCultures] = useState([getRandomCulture(), getRandomCulture(), getRandomCulture()])
+  const [randomCultures, setRandomCultures] = useState<Culture[]>(() => [
+    getRandomCulture(),
+    getRandomCulture(),
+    getRandomCulture(),
+  ])
 
-  // Убедимся, что все три культуры разные
-  const ensureUniqueCultures = (cultures) => {
+  // Убедимся, что все три культуры разные (с типизацией параметров)
+  const ensureUniqueCultures = (cultures: Culture[]): Culture[] => {
     const uniqueCultures = [...new Map(cultures.map((item) => [item.id, item])).values()]
 
     while (uniqueCultures.length < 3) {

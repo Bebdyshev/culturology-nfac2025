@@ -86,7 +86,7 @@ export default function Home() {
 
           <StaggeredChildren className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { id: "sami", name: "Sámi", region: "Northern Europe", image: "/placeholder.svg?height=300&width=400" },
+              { id: "sami", name: "Sámi", region: "Northern Europe", image: "https://www.visitfinland.com/dam/jcr:6772beb0-3aad-45a0-b0ea-3a47df570311/___Lapland_People_Sami_Mikko%20Ryh%C3%A4nen.12414660736871135524.jpg" },
               { id: "hmong", name: "Hmong", region: "Southeast Asia", image: "/placeholder.svg?height=300&width=400" },
               { id: "maori", name: "Māori", region: "New Zealand", image: "/placeholder.svg?height=300&width=400" },
             ].map((culture) => (

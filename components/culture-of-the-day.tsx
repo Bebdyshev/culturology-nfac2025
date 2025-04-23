@@ -6,6 +6,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
 import { Calendar } from "lucide-react"
 
+interface CultureType {
+    id: string
+    name: string
+    region: string
+    image: string
+    shortDescription: string
+  }
+  
+
 // Данные о народах
 const culturesData = {
   sami: {
@@ -48,56 +57,61 @@ const culturesData = {
     shortDescription: "Коренной народ Амазонии, проживающий в тропических лесах на границе Венесуэлы и Бразилии.",
   },
 }
-
-// Функция для определения "народа дня" на основе даты
-function getCultureOfTheDay() {
-  const cultures = Object.values(culturesData)
-  const today = new Date()
-  const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24))
-
-  // Используем день года для выбора народа
-  const cultureIndex = dayOfYear % cultures.length
-  return cultures[cultureIndex]
-}
-
-export default function CultureOfTheDay() {
-  const [culture, setCulture] = useState(null)
-
-  useEffect(() => {
-    setCulture(getCultureOfTheDay())
-  }, [])
-
-  if (!culture) {
-    return <div className="text-center">Загрузка...</div>
+function getCultureOfTheDay(): CultureType {
+    const cultures = Object.values(culturesData)
+    const today = new Date()
+    
+    const start = new Date(today.getFullYear(), 0, 0).getTime()
+    const current = today.getTime()
+    
+    const dayOfYear = Math.floor((current - start) / (1000 * 60 * 60 * 24))
+    const cultureIndex = dayOfYear % cultures.length
+    
+    return cultures[cultureIndex]
   }
-
-  return (
-    <div className="max-w-4xl mx-auto">
-      <Card className="overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="aspect-[4/3] overflow-hidden">
-            <img src={culture.image || "/placeholder.svg"} alt={culture.name} className="w-full h-full object-cover" />
-          </div>
-
-          <div className="flex flex-col p-6">
-            <div className="flex items-center gap-2 text-muted-foreground mb-2">
-              <Calendar className="h-4 w-4" />
-              <span>{new Date().toLocaleDateString()}</span>
+  
+  export default function CultureOfTheDay() {
+    const [culture, setCulture] = useState<CultureType | null>(null)
+  
+    useEffect(() => {
+      setCulture(getCultureOfTheDay())
+    }, [])
+  
+    if (!culture) {
+      return <div className="text-center">Загрузка...</div>
+    }
+  
+    return (
+      <div className="max-w-4xl mx-auto">
+        <Card className="overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="aspect-[4/3] overflow-hidden">
+              <img 
+                src={culture.image} 
+                alt={culture.name} 
+                className="w-full h-full object-cover" 
+              />
             </div>
-
-            <CardTitle className="text-2xl md:text-3xl mb-2">{culture.name}</CardTitle>
-            <CardDescription className="text-lg mb-2">{culture.region}</CardDescription>
-
-            <p className="mt-4 flex-grow">{culture.shortDescription}</p>
-
-            <CardFooter className="px-0 pt-6">
-              <Button asChild>
-                <Link href={`/cultures/${culture.id}`}>Узнать больше</Link>
-              </Button>
-            </CardFooter>
+  
+            <div className="flex flex-col p-6">
+              <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                <Calendar className="h-4 w-4" />
+                <span>{new Date().toLocaleDateString()}</span>
+              </div>
+  
+              <CardTitle className="text-2xl md:text-3xl mb-2">{culture.name}</CardTitle>
+              <CardDescription className="text-lg mb-2">{culture.region}</CardDescription>
+  
+              <p className="mt-4 flex-grow">{culture.shortDescription}</p>
+  
+              <CardFooter className="px-0 pt-6">
+                <Button asChild>
+                  <Link href={`/cultures/${culture.id}`}>Узнать больше</Link>
+                </Button>
+              </CardFooter>
+            </div>
           </div>
-        </div>
-      </Card>
-    </div>
-  )
-}
+        </Card>
+      </div>
+    )
+  }
