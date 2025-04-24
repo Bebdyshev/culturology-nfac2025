@@ -1,6 +1,6 @@
-# Culturlogy
+# Cultural Bridge
 
-**Culturlogy** — это веб-приложение, которое позволяет пользователям узнавать о культурах малоизвестных народов мира. Вдохновением послужил проект [Jimmy Nelson](https://www.beforethey.com/).
+**Cultural Bridge** — это веб-приложение, которое позволяет пользователям узнавать о культурах малоизвестных народов мира. 
 
 ## Краткое описание проекта
 
@@ -10,7 +10,7 @@
 
 Проект полностью задеплоен и доступен по публичной ссылке:
 
-> [https://culturlogy.vercel.app](https://culturlogy.vercel.app) (пример)
+> [[https://culturlogy.vercel.app](https://cultural-bridge.vercel.app/cultures)] (пример)
 
 ## Установка и запуск
 
