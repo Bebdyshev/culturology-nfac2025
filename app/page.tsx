@@ -17,8 +17,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1742201587774-f44fe79556f9?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?height=1080&width=1920')] bg-cover bg-center opacity-30"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/50 to-background"></div>
       </div>
-
-
         <div className="container mx-auto px-4 z-10 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

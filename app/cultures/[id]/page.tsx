@@ -19,6 +19,7 @@ import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
 import CultureMap from "@/components/culture-map"
 import CultureLoader from "@/components/culture-loader"
+import HeyGenCultureChatbot  from "@/components/heygen-culture-chatbot"
 
 interface CultureData {
   name: string
@@ -180,29 +181,25 @@ export default function CultureDetailPage() {
               </div>
 
               <div className="mt-8">
-                <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
+              <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
                   <DialogTrigger asChild>
                     <Button className="w-full group">
                       <MessageSquare className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                       Talk to a Representative
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Chat with a {culture.name} Representative</DialogTitle>
-                      <DialogDescription>
-                        This is a simulated chat experience. In a real application, this would connect to an AI-powered
-                        chat system.
-                      </DialogDescription>
+                  <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
+                    <DialogHeader className="p-4 border-b border-border bg-gradient-to-r from-primary/20 to-primary/5">
+                      <DialogTitle>Общение с представителем культуры {culture.name}</DialogTitle>
                     </DialogHeader>
-                    <div className="bg-muted p-4 rounded-md h-[300px] flex items-center justify-center">
-                      <p className="text-center text-muted-foreground">
-                        [AI Chat Interface Placeholder]
-                        <br />
-                        This would connect to a backend AI service in a real implementation.
-                      </p>
-                    </div>
-                    <Button onClick={() => setIsChatOpen(false)}>Close</Button>
+                    <HeyGenCultureChatbot
+                      cultureName={culture.name}
+                      cultureInfo={{
+                        description: culture.description,
+                        traditions: culture.traditions,
+                        lifestyle: culture.lifestyle,
+                      }}
+                    />
                   </DialogContent>
                 </Dialog>
               </div>
@@ -231,7 +228,7 @@ export default function CultureDetailPage() {
                 <TabsContent value="about" className="mt-0">
                   <h2 className="text-3xl font-heading font-bold mb-6">About the {culture.name}</h2>
                   <p className="text-lg leading-relaxed mb-6">{culture.description}</p>
-                  <div className="aspect-video overflow-hidden rounded-lg border border-border">
+                  <div className="aspect-video overflow-hidden rounded-lg border border-border z-1">
                       <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
                     </div>
                     <p className="mt-4 text-muted-foreground text-center">
@@ -273,6 +270,18 @@ export default function CultureDetailPage() {
                     <CarouselPrevious />
                     <CarouselNext />
                   </Carousel>
+                </TabsContent>
+
+                <TabsContent value="chat" className="mt-0">
+                  <h2 className="text-3xl font-heading font-bold mb-6">Chat with a {culture.name} Representative</h2>
+                  <HeyGenCultureChatbot
+                    cultureName={culture.name}
+                    cultureInfo={{
+                      description: culture.description,
+                      traditions: culture.traditions,
+                      lifestyle: culture.lifestyle,
+                    }}
+                  />
                 </TabsContent>
               </motion.div>
             </Tabs>
