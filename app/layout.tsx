@@ -19,6 +19,9 @@ const raleway = Raleway({
 export const metadata: Metadata = {
   title: "Cultural Bridge | Discover Indigenous Cultures",
   description: "Explore the rich heritage of lesser-known indigenous peoples around the world.",
+  icons: {
+    icon: "/assets/favicon.svg",
+  },
 }
 
 export default function RootLayout({
