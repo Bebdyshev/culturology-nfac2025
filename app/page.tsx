@@ -13,8 +13,8 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent opacity-60"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1742201587774-f44fe79556f9?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?height=1080&width=1920')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent opacity-30"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1742201587774-f44fe79556f9?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?height=1080&width=1920')] bg-cover bg-center opacity-30"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/50 to-background"></div>
       </div>
 
@@ -36,7 +36,7 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="text-xl md:text-2xl mb-10 text-muted-foreground font-light"
             >
-              Explore the rich heritage, traditions, and wisdom of lesser-known indigenous peoples around the world.
+              Explore the rich heritage, traditions, and wisdom of indigenous peoples around the world.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -43,7 +43,7 @@ export default function AboutPage() {
         <AnimatedSection className="max-w-3xl mx-auto mb-24" delay={0.3}>
           <h2 className="text-3xl font-heading font-bold mb-6">Our Mission</h2>
           <p className="text-lg mb-6 leading-relaxed">
-            Culturology is dedicated to documenting, preserving, and sharing the rich cultural heritage of indigenous
+            Cultural Bridge is dedicated to documenting, preserving, and sharing the rich cultural heritage of indigenous
             peoples around the world. We believe that indigenous knowledge systems, languages, and traditions represent
             invaluable human heritage that deserves recognition and protection.
           </p>
