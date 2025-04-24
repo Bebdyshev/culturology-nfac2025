@@ -20,8 +20,8 @@ export async function GET(
     }
 
     const culture = await prisma.culture.findUnique({
-      where: { 
-        key: params.key // Используем key как уникальный идентификатор
+      where: {
+        key: params.key
       },
       select: {
         id: true,
@@ -31,12 +31,14 @@ export async function GET(
         population: true,
         language: true,
         location: true,
+        coordinates: true,
         description: true,
         traditions: true,
         lifestyle: true,
         images: true
       }
     });
+    
 
     if (!culture) {
       return NextResponse.json(

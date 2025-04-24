@@ -15,7 +15,8 @@ model Culture {
   population  String
   language    String
   location    String
-  description String
+  coordinates Int[]
+  description String  
   traditions  String
   lifestyle   String
   images      String[] @db.Text

@@ -17,6 +17,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
+import CultureMap from "@/components/culture-map"
 
 interface CultureData {
   name: string
@@ -24,6 +25,7 @@ interface CultureData {
   population: string
   language: string
   location: string
+  coordinates: [number, number, number]
   description: string
   traditions: string
   lifestyle: string
@@ -224,6 +226,9 @@ export default function CultureDetailPage() {
                 <TabsTrigger value="gallery" className="data-[state=active]:bg-primary/10">
                   Gallery
                 </TabsTrigger>
+                <TabsTrigger value="map" className="data-[state=active]:bg-primary/10">
+                  Map
+                </TabsTrigger>
               </TabsList>
 
               <motion.div key={activeTab} initial="hidden" animate="visible" variants={fadeInVariants}>
@@ -257,7 +262,7 @@ export default function CultureDetailPage() {
                               />
                             </div>
                             <p className="mt-2 text-center text-muted-foreground">
-                              {culture.name} cultural imagery
+                              {culture.name} cultural imagery - Photo {index + 1}
                             </p>
                           </div>
                         </CarouselItem>
@@ -266,6 +271,16 @@ export default function CultureDetailPage() {
                     <CarouselPrevious />
                     <CarouselNext />
                   </Carousel>
+                </TabsContent>
+
+                <TabsContent value="map" className="mt-0">
+                  <h2 className="text-3xl font-heading font-bold mb-6">Geographic Location</h2>
+                  <div className="aspect-video overflow-hidden rounded-lg border border-border">
+                    <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
+                  </div>
+                  <p className="mt-4 text-muted-foreground text-center">
+                    The {culture.name} people primarily inhabit the regions shown on this map.
+                  </p>
                 </TabsContent>
               </motion.div>
             </Tabs>
