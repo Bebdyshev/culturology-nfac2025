@@ -141,11 +141,8 @@ export default function CultureDetailPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Sidebar with Key Information */}
           <AnimatedSection className="order-2 lg:order-1" delay={0.2} direction="right">
-              <div className="aspect-video overflow-hidden rounded-lg border border-border">
-                <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
-              </div>
-
             <div className="bg-muted/50 backdrop-blur-sm rounded-lg p-6 sticky top-24 border border-border">
               <h3 className="text-xl font-heading font-semibold mb-6">Key Information</h3>
 
@@ -229,15 +226,18 @@ export default function CultureDetailPage() {
                 <TabsTrigger value="gallery" className="data-[state=active]:bg-primary/10">
                   Gallery
                 </TabsTrigger>
-                <TabsTrigger value="map" className="data-[state=active]:bg-primary/10">
-                  Map
-                </TabsTrigger>
               </TabsList>
 
               <motion.div key={activeTab} initial="hidden" animate="visible" variants={fadeInVariants}>
                 <TabsContent value="about" className="mt-0">
                   <h2 className="text-3xl font-heading font-bold mb-6">About the {culture.name}</h2>
                   <p className="text-lg leading-relaxed mb-6">{culture.description}</p>
+                  <div className="aspect-video overflow-hidden rounded-lg border border-border">
+                      <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
+                    </div>
+                    <p className="mt-4 text-muted-foreground text-center">
+                      The {culture.name} people primarily inhabit the regions shown on this map.
+                    </p>
                 </TabsContent>
 
                 <TabsContent value="traditions" className="mt-0">
@@ -274,10 +274,6 @@ export default function CultureDetailPage() {
                     <CarouselPrevious />
                     <CarouselNext />
                   </Carousel>
-                </TabsContent>
-
-                <TabsContent value="map" className="mt-0">
-
                 </TabsContent>
               </motion.div>
             </Tabs>
