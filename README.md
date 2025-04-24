@@ -16,8 +16,7 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/yourusername/culturlogy.git
-   cd culturlogy
+   git clone [https://github.com/yourusername/culturlogy.git](https://github.com/Bebdyshev/culturology-nfac2025.git)
    ```
 
 2. Установите зависимости:
