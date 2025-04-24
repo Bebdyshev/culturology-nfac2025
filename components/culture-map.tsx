@@ -76,5 +76,5 @@ export default function CultureMap({ coordinates, cultureName }: CultureMapProps
     }
   }, [coordinates, cultureName, theme]) // добавляем зависимость от темы
 
-  return <div ref={mapRef} className="w-full h-full min-h-[400px]" />
+  return <div ref={mapRef} className="w-full h-full min-h-[400px] z-10" />
 }

@@ -135,7 +135,8 @@ export default function CulturesPage() {
           >
             {filteredCultures.map((culture) => (
               <motion.div key={`${culture.id}-${culture.name}`} variants={itemVariants}>
-                <Card className="overflow-hidden hover:shadow-lg transition-all duration-500 hover:border-primary/50 group">
+                <Link href={`/cultures/${culture.key}`} passHref>
+                  <Card className="overflow-hidden hover:shadow-lg transition-all duration-500 hover:border-primary/50 group">
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
                       src={culture.images[0] || "/placeholder.svg"}
@@ -155,10 +156,12 @@ export default function CulturesPage() {
                       variant="outline"
                       className="w-full group-hover:bg-primary/10 transition-colors duration-300"
                     >
-                      <Link href={`/cultures/${culture.key}`}>Learn More</Link>
+                      <span>Learn More</span>
                     </Button>
                   </CardFooter>
                 </Card>
+              </Link>
+
               </motion.div>
             ))}
           </motion.div>

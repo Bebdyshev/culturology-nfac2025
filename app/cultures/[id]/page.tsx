@@ -185,7 +185,7 @@ export default function CultureDetailPage() {
                 </div>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 z-999">
               <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
                   <DialogTrigger asChild>
                     <Button className="w-full group">
@@ -233,7 +233,7 @@ export default function CultureDetailPage() {
                 <TabsContent value="about" className="mt-0">
                   <h2 className="text-3xl font-heading font-bold mb-6">About the {culture.name}</h2>
                   <p className="text-lg leading-relaxed mb-6">{culture.description}</p>
-                  <div className="aspect-video overflow-hidden rounded-lg border border-border z-1">
+                  <div className="aspect-video overflow-hidden rounded-lg border border-border z-10">
                       <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
                     </div>
                     <p className="mt-4 text-muted-foreground text-center">

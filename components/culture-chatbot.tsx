@@ -286,7 +286,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
   }
 
   return (
-    <div className="flex flex-col h-[500px] bg-background rounded-lg overflow-hidden shadow-lg border border-border">
+    <div className="flex flex-col h-[500px] bg-background rounded-lg overflow-hidden shadow-lg border border-border z-1000">
       {/* Chat header with cultural pattern */}
       <div className={`p-4 bg-gradient-to-r ${style.primaryColor} relative overflow-hidden`}>
         <div className={`absolute inset-0 opacity-10 ${style.patternClass}`} />
@@ -303,7 +303,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
           <Button
             variant="ghost"
             size="sm"
-            className="text-white/70 hover:text-white hover:bg-white/10"
+            className="text-foreground/70 hover:text-foreground hover:bg-foreground/10"
             onClick={() => {
               if (window.confirm("Are you sure you want to clear your chat history?")) {
                 clearChatHistory(cultureName)
