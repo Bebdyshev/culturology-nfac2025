@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
 import CultureMap from "@/components/culture-map"
+import CultureLoader from "@/components/culture-loader"
 
 interface CultureData {
   name: string
@@ -71,9 +72,7 @@ export default function CultureDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-16 pb-16 flex items-center justify-center">
-        <div className="animate-pulse text-xl">Loading culture data...</div>
-      </div>
+      <CultureLoader />
     )
   }
 

@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
+import { ShimmerCard } from "@/components/shimmer-card"
 
 type Culture = {
   id: string
@@ -20,30 +21,29 @@ type Culture = {
   images: string[]
 }
 
-
 const continents = ["All", "Africa", "Asia", "Europe", "North America", "Oceania", "South America"]
-
 
 export default function CulturesPage() {
   const [cultures, setCultures] = useState<Culture[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedContinent, setSelectedContinent] = useState("All")
 
   useEffect(() => {
     const fetchCultures = async () => {
       try {
+        setLoading(true)
         const res = await axios.get("/cultures")
         setCultures(res.data)
       } catch (err) {
         console.error("Failed to fetch cultures:", err)
+      } finally {
+        setLoading(false)
       }
     }
 
     fetchCultures()
   }, [])
-
-  console.log(cultures)
-  
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedContinent, setSelectedContinent] = useState("All")
 
   const filteredCultures = cultures.filter((culture) => {
     const matchesSearch =
@@ -116,8 +116,17 @@ export default function CulturesPage() {
           </div>
         </AnimatedSection>
 
-        {/* Cultures Grid */}
-        {filteredCultures.length > 0 ? (
+        {/* Loading State */}
+        {loading ? (
+        <AnimatedSection className="mb-12" delay={0.2}>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <ShimmerCard key={`shimmer-${index}`} />
+            ))}
+          </div>
+        </AnimatedSection>
+        ) : filteredCultures.length > 0 ? (
           <motion.div
             variants={containerVariants}
             initial="hidden"
