@@ -10,7 +10,7 @@
 
 Проект полностью задеплоен и доступен по публичной ссылке:
 
-> [[https://culturlogy.vercel.app](https://cultural-bridge.vercel.app/cultures)] (пример)
+> [ ([пример](https://cultural-bridge.vercel.app))](https://cultural-bridge.vercel.app)
 
 ## Установка и запуск
 
