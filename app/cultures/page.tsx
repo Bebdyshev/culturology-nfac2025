@@ -13,6 +13,7 @@ import { AnimatedSection } from "@/components/animated-section"
 
 type Culture = {
   id: string
+  key: string
   name: string
   region: string
   continent: string
@@ -145,7 +146,7 @@ export default function CulturesPage() {
                       variant="outline"
                       className="w-full group-hover:bg-primary/10 transition-colors duration-300"
                     >
-                      <Link href={`/cultures/${culture.id}`}>Learn More</Link>
+                      <Link href={`/cultures/${culture.key}`}>Learn More</Link>
                     </Button>
                   </CardFooter>
                 </Card>
