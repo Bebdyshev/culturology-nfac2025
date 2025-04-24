@@ -19,7 +19,7 @@ import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
 import CultureMap from "@/components/culture-map"
 import CultureLoader from "@/components/culture-loader"
-import HeyGenCultureChatbot  from "@/components/heygen-culture-chatbot"
+import CultureChatbot from "@/components/culture-chatbot"
 
 interface CultureData {
   name: string
@@ -41,6 +41,7 @@ export default function CultureDetailPage() {
   const [culture, setCulture] = useState<CultureData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isAudioLoading, setIsAudioLoading] = useState(true)
 
   useEffect(() => {
     const fetchCultureData = async () => {
@@ -69,6 +70,10 @@ export default function CultureDetailPage() {
         ease: [0.22, 1, 0.36, 1],
       },
     },
+  }
+
+  const handleAudioLoaded = () => {
+    setIsAudioLoading(false)
   }
 
   if (loading) {
@@ -188,11 +193,8 @@ export default function CultureDetailPage() {
                       Talk to a Representative
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
-                    <DialogHeader className="p-4 border-b border-border bg-gradient-to-r from-primary/20 to-primary/5">
-                      <DialogTitle>Общение с представителем культуры {culture.name}</DialogTitle>
-                    </DialogHeader>
-                    <HeyGenCultureChatbot
+                  <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden">
+                    <CultureChatbot
                       cultureName={culture.name}
                       cultureInfo={{
                         description: culture.description,
@@ -277,14 +279,21 @@ export default function CultureDetailPage() {
 
                 <TabsContent value="chat" className="mt-0">
                   <h2 className="text-3xl font-heading font-bold mb-6">Chat with a {culture.name} Representative</h2>
-                  <HeyGenCultureChatbot
+                  <CultureChatbot
                     cultureName={culture.name}
                     cultureInfo={{
                       description: culture.description,
                       traditions: culture.traditions,
                       lifestyle: culture.lifestyle,
                     }}
+                    onAudioLoaded={handleAudioLoaded}
                   />
+                  {isAudioLoading && (
+                    <div className="mt-4 text-center text-muted-foreground">
+                      <div className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent mr-2"></div>
+                      Загрузка голосовых данных...
+                    </div>
+                  )}
                 </TabsContent>
               </motion.div>
             </Tabs>
