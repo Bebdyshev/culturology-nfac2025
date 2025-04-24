@@ -15,6 +15,7 @@ model Culture {
   population  String
   language    String
   location    String
+  continent   String
   coordinates Int[]
   description String  
   traditions  String

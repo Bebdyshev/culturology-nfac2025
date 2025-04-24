@@ -44,7 +44,7 @@ export default function CulturesPage() {
 
     fetchCultures()
   }, [])
-
+  console.log(cultures)
   const filteredCultures = cultures.filter((culture) => {
     const matchesSearch =
       culture.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

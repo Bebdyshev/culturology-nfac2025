@@ -1,13 +1,55 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
 import { StaggeredChildren } from "@/components/staggered-children"
 import { ArrowRight } from "lucide-react"
+import { Typewriter } from "react-simple-typewriter"
+
+const quotes = [
+  {
+    text: "We may have different religions, different languages, different colored skin, but we all belong to one human race",
+    author: "Kofi Annan",
+    position: "7th UN Secretary General",
+  },
+  {
+    text: "Culture is the widening of the mind and of the spirit.",
+    author: "Jawaharlal Nehru",
+    position: "1st Prime Minister of India",
+  },
+  {
+    text: "A nation’s culture resides in the hearts and in the soul of its people.",
+    author: "Mahatma Gandhi",
+    position: "Leader of Indian Independence Movement",
+  },
+  {
+    text: "Preservation of one’s own culture does not require contempt or disrespect for other cultures.",
+    author: "Cesar Chavez",
+    position: "American Labor Leader and Civil Rights Activist",
+  },
+  {
+    text: "Culture makes people understand each other better. And if they understand each other better in their soul, it is easier to overcome the economic and political barriers.",
+    author: "Paulo Coelho",
+    position: "Brazilian Lyricist and Novelist",
+  },
+]
 
 export default function Home() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % quotes.length)
+    }, 15000) // меняется каждые 8 секунд
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const current = quotes[index]
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -127,22 +169,34 @@ export default function Home() {
 
       {/* Quote Section */}
       <AnimatedSection className="py-32 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="text-6xl text-primary/20 font-serif mb-6">"</div>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading italic mb-8 leading-relaxed">
-            We may have different religions, different languages, different colored skin,
-            but we all belong to one human race
-            </h2>
-            <p className="text-xl text-primary font-medium">Kofi Annan</p>
-            <p className="text-muted-foreground">7th UN Secretary General</p>
-          </div>
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="text-6xl text-primary/20 font-serif mb-6">"</div>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading italic mb-8 leading-relaxed min-h-[100px]">
+            <Typewriter
+              key={index} // перезапускает анимацию
+              words={[current.text]}
+              loop={1}
+              cursor
+              cursorStyle="|"
+              typeSpeed={20}
+              deleteSpeed={30}
+              delaySpeed={2000}
+            />
+          </h2>
+          <p className="text-xl text-primary font-medium transition-opacity duration-500">
+            {current.author}
+          </p>
+          <p className="text-muted-foreground transition-opacity duration-500">
+            {current.position}
+          </p>
         </div>
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-10 left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-60 h-60 bg-primary/5 rounded-full blur-3xl"></div>
-        </div>
-      </AnimatedSection>
+      </div>
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="absolute top-10 left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-60 h-60 bg-primary/5 rounded-full blur-3xl"></div>
+      </div>
+    </AnimatedSection>
     </div>
   )
 }
