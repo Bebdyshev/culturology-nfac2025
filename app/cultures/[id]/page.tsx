@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import { ChevronLeft, MessageSquare, Globe, Users, Calendar, MapPin } from "lucide-react"
@@ -18,37 +18,42 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion } from "framer-motion"
 import { AnimatedSection } from "@/components/animated-section"
 
-// Mock data for cultures
-const culturesData = {
-  sami: {
-    name: "Sámi",
-    region: "Northern Europe",
-    population: "~80,000",
-    language: "Sámi languages (Northern Sámi, Inari Sámi, etc.)",
-    location: "Norway, Sweden, Finland, and Russia's Kola Peninsula",
-    description:
-      "The Sámi people are indigenous to the northern parts of Norway, Sweden, Finland, and Russia's Kola Peninsula. Traditionally, they have pursued a variety of livelihoods, including coastal fishing, fur trapping, and sheep herding. Their best-known means of livelihood is semi-nomadic reindeer herding, with which about 10% of the Sámi are connected and 2,800 actively involved in. For traditional, environmental, cultural, and political reasons, reindeer herding is legally reserved for Sámi people in certain regions of the Nordic countries.",
-    traditions:
-      "The Sámi have a rich cultural heritage that includes distinctive colorful clothing (gákti), handicrafts (duodji), and the joik, a traditional form of song. The Sámi spiritual tradition is characterized by a deep connection to the land and animistic beliefs. Traditional Sámi religion was animistic, with a worship of nature and natural forces. The Sámi shaman, or noaidi, would use a drum decorated with symbols to enter a trance and communicate with the spirit world.",
-    lifestyle:
-      "While many Sámi have adopted modern lifestyles and live in urban areas, traditional practices like reindeer herding remain important cultural touchstones. Modern Sámi communities balance traditional knowledge with contemporary life, working to preserve their language and cultural practices while adapting to changing social and environmental conditions. The Sámi have their own parliaments in Norway, Sweden, and Finland, which advocate for Sámi rights and interests.",
-    images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-    ],
-  },
+interface CultureData {
+  name: string
+  region: string
+  population: string
+  language: string
+  location: string
+  description: string
+  traditions: string
+  lifestyle: string
+  images: string[]
 }
 
 export default function CultureDetailPage() {
   const { id } = useParams()
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("about")
+  const [culture, setCulture] = useState<CultureData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  // Fallback for unknown culture IDs
-  const cultureId = typeof id === "string" && id in culturesData ? id : "sami"
-  const culture = culturesData[cultureId as keyof typeof culturesData]
+  useEffect(() => {
+    const fetchCultureData = async () => {
+      try {
+        const response = await fetch(`/api/cultures/${id}`)
+        if (!response.ok) throw new Error('Failed to fetch culture data')
+        const data = await response.json()
+        setCulture(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load culture data')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (id) fetchCultureData()
+  }, [id])
 
   const fadeInVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -60,6 +65,28 @@ export default function CultureDetailPage() {
         ease: [0.22, 1, 0.36, 1],
       },
     },
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-16 pb-16 flex items-center justify-center">
+        <div className="animate-pulse text-xl">Loading culture data...</div>
+      </div>
+    )
+  }
+
+  if (error || !culture) {
+    return (
+      <div className="min-h-screen pt-16 pb-16 flex items-center justify-center">
+        <div className="text-red-500 text-xl">{error || 'Culture not found'}</div>
+        <Button asChild variant="outline" className="ml-4">
+          <Link href="/cultures">
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Back to Cultures
+          </Link>
+        </Button>
+      </div>
+    )
   }
 
   return (
@@ -230,7 +257,7 @@ export default function CultureDetailPage() {
                               />
                             </div>
                             <p className="mt-2 text-center text-muted-foreground">
-                              {culture.name} cultural imagery - Photo {index + 1}
+                              {culture.name} cultural imagery
                             </p>
                           </div>
                         </CarouselItem>
