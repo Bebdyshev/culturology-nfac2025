@@ -14,8 +14,8 @@ type AudioPlayerProps = {
   onPlayStateChange?: (isPlaying: boolean) => void
 }
 
-export function AudioPlayer({ audioUrl, className, autoPlay = false, onPlayStateChange }: AudioPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
+export function AudioPlayer({ audioUrl, className, autoPlay = true, onPlayStateChange }: AudioPlayerProps) {
+  const [isPlaying, setIsPlaying] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
