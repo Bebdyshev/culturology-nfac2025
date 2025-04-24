@@ -141,8 +141,11 @@ export default function CultureDetailPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Sidebar with Key Information */}
           <AnimatedSection className="order-2 lg:order-1" delay={0.2} direction="right">
+              <div className="aspect-video overflow-hidden rounded-lg border border-border">
+                <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
+              </div>
+
             <div className="bg-muted/50 backdrop-blur-sm rounded-lg p-6 sticky top-24 border border-border">
               <h3 className="text-xl font-heading font-semibold mb-6">Key Information</h3>
 
@@ -274,13 +277,7 @@ export default function CultureDetailPage() {
                 </TabsContent>
 
                 <TabsContent value="map" className="mt-0">
-                  <h2 className="text-3xl font-heading font-bold mb-6">Geographic Location</h2>
-                  <div className="aspect-video overflow-hidden rounded-lg border border-border">
-                    <CultureMap coordinates={culture.coordinates} cultureName={culture.name} />
-                  </div>
-                  <p className="mt-4 text-muted-foreground text-center">
-                    The {culture.name} people primarily inhabit the regions shown on this map.
-                  </p>
+
                 </TabsContent>
               </motion.div>
             </Tabs>
