@@ -222,6 +222,9 @@ export default function CultureDetailPage() {
                 <TabsTrigger value="gallery" className="data-[state=active]:bg-primary/10">
                   Gallery
                 </TabsTrigger>
+                <TabsTrigger value="chat" className="data-[state=active]:bg-primary/10">
+                  Chat
+                </TabsTrigger>
               </TabsList>
 
               <motion.div key={activeTab} initial="hidden" animate="visible" variants={fadeInVariants}>
