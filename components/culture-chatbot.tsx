@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils"
 import { getCultureStyle } from "@/lib/culture-styles"
 import { CulturalAvatar } from "@/components/cultural-avatar"
 import { AudioPlayer } from "@/components/audio-player"
-import { SpeechRecognition } from "@/components/speech-recognition"
 import type { Message, CultureInfo } from "@/lib/types"
 import { v4 as uuidv4 } from "uuid"
 import { saveChatHistory, loadChatHistory, clearChatHistory } from "@/lib/chat-storage"
@@ -45,7 +44,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
       },
       {
         id: "welcome-translation",
-        content: style.greetingTranslation || `Здравствуйте! Я представитель культуры ${cultureName}.`,
+        content: style.greetingTranslation || `Hello! I am a representative of ${cultureName} culture.`,
         sender: "bot",
         timestamp: new Date(),
       },
@@ -73,7 +72,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            text: style.greetingTranslation || `Здравствуйте! Я представитель культуры ${cultureName}.`,
+            text: style.greetingTranslation || `Hello! I am a representative of ${cultureName} culture.`,
             cultureName,
           }),
         })
@@ -253,7 +252,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
           msg.id === tempBotMessageId
             ? {
                 id: tempBotMessageId,
-                content: "Извините, произошла ошибка при обработке вашего запроса. Пожалуйста, попробуйте еще раз.",
+                content: "Sorry, there was an error processing your request. Please try again.",
                 sender: "bot",
                 timestamp: new Date(),
                 isProcessing: false,
@@ -297,8 +296,8 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
               <CulturalAvatar cultureName={cultureName} size="lg" />
             </div>
             <div>
-              <h3 className="font-medium text-lg font-heading text-white">{cultureName} Представитель</h3>
-              <p className="text-xs text-white/70">Виртуальный культурный ассистент с голосом</p>
+                <h3 className="font-medium text-lg font-heading text-foreground">{cultureName} representative</h3>
+                <p className="text-xs text-foreground/70">Virtual cultural assistant</p>
             </div>
           </div>
           <Button
@@ -306,7 +305,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
             size="sm"
             className="text-white/70 hover:text-white hover:bg-white/10"
             onClick={() => {
-              if (window.confirm("Вы уверены, что хотите очистить историю чата?")) {
+              if (window.confirm("Are you sure you want to clear your chat history?")) {
                 clearChatHistory(cultureName)
                 setMessages([
                   {
@@ -318,7 +317,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
                   },
                   {
                     id: "welcome-translation",
-                    content: style.greetingTranslation || `Здравствуйте! Я представитель культуры ${cultureName}.`,
+                    content: style.greetingTranslation || `Hello! I am a representative of ${cultureName} culture.`,
                     sender: "bot",
                     timestamp: new Date(),
                   },
@@ -326,7 +325,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
               }
             }}
           >
-            Очистить историю
+            Clear history
           </Button>
         </div>
       </div>
@@ -396,7 +395,7 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
                       </div>
                     ) : (
                       <>
-                        <p className="text-sm leading-relaxed">{message.content}</p>
+                        <p className="text-sm leading-relaxed text-foreground">{message.content}</p>
                         <div className="flex justify-between items-center mt-1">
                           <div>
                             {message.audioUrl && message.sender === "bot" && !message.originalLanguage && (
@@ -407,18 +406,24 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
                               />
                             )}
                           </div>
-                          <p className="text-xs opacity-70 text-right">
+                          <p className="text-xs text-muted-foreground text-right">
                             {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                          </p>
+                        </p>
                         </div>
                       </>
                     )}
                   </div>
                   {message.sender === "user" && (
-                    <div className="bg-white/20 p-1 rounded-full mt-0.5 flex-shrink-0">
-                      <User className="h-4 w-4 text-white" />
+                    <div className={cn(
+                        "p-1 rounded-full mt-0.5 flex-shrink-0",
+                        isDark ? "bg-white/20" : "bg-primary/20"
+                    )}>
+                        <User className={cn(
+                        "h-4 w-4",
+                        isDark ? "text-white" : "text-primary"
+                        )} />
                     </div>
-                  )}
+                    )}
                 </div>
               </div>
             </motion.div>
@@ -457,12 +462,11 @@ export default function CultureChatbot({ cultureName, cultureInfo, onAudioLoaded
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Напишите сообщение..."
+            placeholder="Write a message..."
             className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
             disabled={isProcessing}
           />
 
-          <SpeechRecognition onSpeechResult={handleSpeechResult} isDisabled={isProcessing} className="mr-1" />
 
           <Button
             onClick={() => handleSendMessage()}

@@ -266,7 +266,7 @@ export default function CultureDetailPage() {
                               />
                             </div>
                             <p className="mt-2 text-center text-muted-foreground">
-                              {culture.name} cultural imagery - Photo {index + 1}
+                              {culture.name} cultural imagery 
                             </p>
                           </div>
                         </CarouselItem>
@@ -278,7 +278,6 @@ export default function CultureDetailPage() {
                 </TabsContent>
 
                 <TabsContent value="chat" className="mt-0">
-                  <h2 className="text-3xl font-heading font-bold mb-6">Chat with a {culture.name} Representative</h2>
                   <CultureChatbot
                     cultureName={culture.name}
                     cultureInfo={{
@@ -291,7 +290,7 @@ export default function CultureDetailPage() {
                   {isAudioLoading && (
                     <div className="mt-4 text-center text-muted-foreground">
                       <div className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent mr-2"></div>
-                      Загрузка голосовых данных...
+                      Loading voice data...
                     </div>
                   )}
                 </TabsContent>
