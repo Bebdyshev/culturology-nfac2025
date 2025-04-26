@@ -57,8 +57,8 @@
 ## Технический стек
 
 - **Frontend**: React + Next.js + shadcn/ui + Tailwind
-- **Backend**: Node.js API (Vercel Functions)
-- **БД и данные**: Prisma + PosgreSQL + GROQ
+- **Backend**: Next.js 
+- **БД и данные**: Prisma + PosgreSQL
 - **Голос**: ElevenLabs API
 
 ## Поиск и фильтр
